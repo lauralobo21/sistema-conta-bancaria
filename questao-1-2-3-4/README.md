@@ -1,8 +1,5 @@
-Com certeza\! Baseado em toda a nossa conversa, na estrutura de pastas e nos comandos de compilação, aqui está um arquivo `README.md` completo e pronto para você colocar no seu repositório do GitHub.
 
------
 
-````markdown
 # Projeto Java TCP: Serialização de Objetos Customizada
 
 Este é um projeto acadêmico simples que demonstra a comunicação Cliente-Servidor em Java usando Sockets TCP. 
@@ -142,5 +139,5 @@ Lendo dados das Contas do cliente...
 Conexão com o cliente encerrada.
 
 
-Basta copiar e colar esse conteúdo em um arquivo chamado `README.md` na pasta raiz do seu projeto (`TRABALHO01/`).
+
 ```
