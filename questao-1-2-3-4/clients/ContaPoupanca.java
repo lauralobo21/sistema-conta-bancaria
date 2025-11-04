@@ -3,7 +3,6 @@ package clients;
 
 public class ContaPoupanca extends Conta {
 
-    // Atributo específico desta classe (exemplo)
     private int variacao; // Ex: 51, 01, etc.
 
     /**
@@ -16,28 +15,19 @@ public class ContaPoupanca extends Conta {
      */
      
     public ContaPoupanca(String numeroConta, Cliente titular, int variacao) {
-        // 1. Chama o construtor da classe "mãe" (Conta)
         super(numeroConta, titular);
-        
-        // 2. Define o atributo específico
         this.variacao = variacao;
     }
 
-    /**
-     * Implementação OBRIGATÓRIA.
-     * Note como o identificador é diferente.
-     */
     @Override
     public String getTipoConta() {
-        return "ContaPoupanca"; // Identificador único
+        return "ContaPoupanca";
     }
 
-    // Getter para o atributo específico
     public int getVariacao() {
         return variacao;
     }
 
-    // Opcional: Sobrescrever o 'toString' para incluir a variação
     @Override
     public String toString() {
         return super.toString() + 

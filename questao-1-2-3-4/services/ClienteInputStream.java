@@ -19,11 +19,7 @@ public class ClienteInputStream extends FilterInputStream {
         this.dis = new DataInputStream(in);
     }
 
-    /**
-     * Lê um único objeto Conta do stream.
-     */
     public Conta readConta() throws IOException {
-        // --- ORDEM DE LEITURA (PROTOCOLO) ---
         
         // 1. Identificador de Tipo (String)
         String tipoConta = dis.readUTF();
@@ -52,9 +48,7 @@ public class ClienteInputStream extends FilterInputStream {
             // Cria a ContaPoupanca
             contaRecebida = new ContaPoupanca(numeroConta, titular, variacao);
         }
-        // Adicione 'else if' para outros tipos
 
-        // 5. ATRIBUI O SALDO LIDO
         // (O construtor da Conta define o saldo como 0.0,
         // então precisamos definir o saldo real que veio pela rede)
         if (contaRecebida != null) {

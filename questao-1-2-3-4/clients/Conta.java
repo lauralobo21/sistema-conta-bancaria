@@ -13,11 +13,18 @@ public abstract class Conta {
 
     public abstract String getTipoConta();
 
-    // Getters
-    public String getNumeroConta() { return numeroConta; }
-    public Cliente getTitular() { return titular; }
-    public double getSaldo() { return saldo; }
-    public void setSaldo(double saldo){ this.saldo = saldo;}
+    public String getNumeroConta() { 
+        return numeroConta; 
+    }
+    public Cliente getTitular() { 
+        return titular; 
+    }
+    public double getSaldo() { 
+        return saldo; 
+    }
+    public void setSaldo(double saldo){ 
+        this.saldo = saldo;
+    }
 
     // Serviços básicos
     public void depositar(double valor) {

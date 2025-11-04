@@ -19,27 +19,22 @@ public class ClienteOutPutStream extends FilterOutputStream {
         this.dos = new DataOutputStream(out);
     }
 
-    /**
-     * Escreve um único objeto Conta no stream.
-     * Lida com os diferentes tipos de conta.
-     */
     public void writeConta(Conta c) throws IOException {
-        // --- ORDEM DE ESCRITA (PROTOCOLO) ---
         
-        // 1. Identificador de Tipo (String)
+        // Identificador de Tipo (String)
         dos.writeUTF(c.getTipoConta());
 
-        // 2. Dados da Superclasse Conta (Comuns)
+        // Dados da Superclasse Conta (Comuns)
         dos.writeUTF(c.getNumeroConta());
-        dos.writeDouble(c.getSaldo()); // <-- ADICIONADO
+        dos.writeDouble(c.getSaldo()); 
 
-        // 3. Dados do Cliente (Titular)
+        // Dados do Cliente (Titular)
         Cliente titular = c.getTitular(); // Usa o getter da sua classe Conta
         dos.writeUTF(titular.getNome());
         dos.writeUTF(titular.getCpf());
         dos.writeInt(titular.getIdade());
 
-        // 4. Dados Específicos de cada tipo
+        // Dados Específicos de cada tipo
         if (c instanceof ContaCorrente) {
             ContaCorrente cc = (ContaCorrente) c;
             dos.writeDouble(cc.getLimiteChequeEspecial()); 
@@ -47,17 +42,16 @@ public class ClienteOutPutStream extends FilterOutputStream {
             ContaPoupanca cp = (ContaPoupanca) c;
             dos.writeInt(cp.getVariacao());
         }
-        // Adicione 'else if' para outros tipos
     }
 
     /**
-     * Escreve um array de Contas.
+     * array de Contas.
      */
     public void writeContas(Conta[] contas, int numContas) throws IOException {
         dos.writeInt(numContas);
         for (int i = 0; i < numContas; i++) {
             writeConta(contas[i]);
         }
-        dos.flush(); 
+        dos.flush(); // força o dos a enviar quaisquer bytes que esteja guardado no buffer
     }
 }
