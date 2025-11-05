@@ -26,7 +26,6 @@ public class TesteStream {
         Cliente cli2 = new Cliente("Carlos Moura", "222.222.222-22", 30);
         Cliente cli3 = new Cliente("Daniela Reis", "333.333.333-33", 40);
 
-        // **A MUDANÇA É AQUI**: Criamos um array de CONTAS
         Conta[] contasParaEnviar = new Conta[3];
         
         // Preenche o array com diferentes tipos de conta
@@ -38,10 +37,10 @@ public class TesteStream {
         contasParaEnviar[0].depositar(500.0);
         System.out.println("Dados de teste criados.");
         
-        String nomeArquivo = "contas.dat";
+        String nomeArquivo = "contas.dat"; //2.b.ii
         System.out.println("\n--- Testando escrita em arquivo (" + nomeArquivo + ") ---");
         try (FileOutputStream fos = new FileOutputStream(nomeArquivo);
-             ClienteOutPutStream outFile = new ClienteOutPutStream(fos)) {
+             ClienteOutPutStream outFile = new ClienteOutPutStream(fos)) { //passa o stream de arquivo para o cliente
             
             outFile.writeContas(contasParaEnviar, contasParaEnviar.length); 
             System.out.println("Escrita em arquivo concluída.");
@@ -50,41 +49,39 @@ public class TesteStream {
 
         
         System.out.println("\n--- Testando leitura de arquivo (" + nomeArquivo + ") ---");
-        try (FileInputStream fis = new FileInputStream(nomeArquivo);
+        try (FileInputStream fis = new FileInputStream(nomeArquivo); //3.c
              ClienteInputStream inFile = new ClienteInputStream(fis)) {
             
             Conta[] contasLidas = inFile.readContas(); 
             System.out.println("Leitura do arquivo concluída.");
             System.out.println("Contas lidas do arquivo:");
             for(Conta c : contasLidas) {
-                // Usa o toString() que você definiu na sua classe Conta
+                // Usa o toString() que definimos na classe Conta
                 System.out.println("  > " + c.toString()); 
             }
         
         } catch (IOException e) { e.printStackTrace(); }
 
-        
         System.out.println("\n--- Testando escrita no Console (pode gerar 'lixo' binário) ---");
-        try (ClienteOutPutStream outStd = new ClienteOutPutStream(System.out)) {
-            // *** CORREÇÃO AQUI (Erro 3) ***
+        try (ClienteOutPutStream outStd = new ClienteOutPutStream(System.out)) { //2.b.i
             outStd.writeContas(contasParaEnviar, contasParaEnviar.length);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("\n(Escrita no console concluída)");
 
-        String host = "localhost";
+        String host = "localhost"; //2.b.iii
         int porta = 12345;
         System.out.println("\n--- Testando envio via Rede (Socket) para " + host + ":" + porta + " ---");
 
         try (
             Socket socket = new Socket(host, porta);
-            ClienteOutPutStream outSocket = new ClienteOutPutStream(socket.getOutputStream())
+            ClienteOutPutStream outSocket = new ClienteOutPutStream(socket.getOutputStream()); //obtem o stream de conexão
         ) {
             
             System.out.println("CLIENTE: Conexão estabelecida. Enviando dados...");
 
-            outSocket.writeContas(contasParaEnviar, contasParaEnviar.length);
+            outSocket.writeContas(contasParaEnviar, contasParaEnviar.length); //empacota e envia para a rede
             
             System.out.println("CLIENTE: Dados enviados com sucesso!");
 

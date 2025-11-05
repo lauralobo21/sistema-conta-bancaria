@@ -2,7 +2,7 @@ package voting;
 
 import com.google.gson.Gson;
 import java.util.List;
-import java.util.ArrayList; // Importe esta
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;

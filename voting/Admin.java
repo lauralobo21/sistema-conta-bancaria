@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import com.google.gson.Gson;
-import voting.*; // Importa os nossos POJOs
+import voting.*;
 
 public class Admin {
 
@@ -31,7 +31,6 @@ public class Admin {
             Mensagem msgEnvio = null;
 
             if (escolha.equals("1")) {
-                // --- LÓGICA DE ADICIONAR CANDIDATO ---
                 System.out.print("Digite o NOME do novo candidato: ");
                 String nome = scanner.nextLine();
                 System.out.print("Digite o ID (número) do novo candidato: ");
@@ -44,7 +43,6 @@ public class Admin {
                 msgEnvio = new Mensagem("ADD_CANDIDATO", payload);
 
             } else if (escolha.equals("2")) {
-                // --- LÓGICA DE ENVIAR NOTA ---
                 System.out.print("Digite a nota informativa a ser enviada (UDP): ");
                 String textoNota = scanner.nextLine();
 

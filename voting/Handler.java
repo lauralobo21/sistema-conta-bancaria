@@ -68,15 +68,12 @@ public class Handler implements Runnable {
                     
                     // --- Casos do Administrador ---
                     case "ADD_CANDIDATO":
-                        // (Num sistema real, você validaria se este cliente é admin)
                         Candidato c = gson.fromJson(msgRecebida.getPayload(), Candidato.class);
                         String statusAdd = gerenciador.addCandidato(c.getNome(), c.getId());
                         msgResposta = new Mensagem(statusAdd, "");
                         break;
 
                     case "REM_CANDIDATO":
-                        // Para remover, só precisamos do ID.
-                        // Podemos reutilizar o POJO 'Voto', que só tem 'idCandidato'
                         Voto votoParaRemover = gson.fromJson(msgRecebida.getPayload(), Voto.class);
                         String statusRemocao = gerenciador.removerCandidato(votoParaRemover.getIdCandidato());
                         msgResposta = new Mensagem(statusRemocao, "");

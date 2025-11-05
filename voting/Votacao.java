@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import com.google.gson.Gson; // <-- ADICIONE ESTA LINHA DE VOLTA
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Votacao {
     public static void main(String[] args) {
         String host = "localhost";
         int portaTCP = 9090;
-        Gson gson = new Gson(); // <-- ADICIONE ESTA LINHA DE VOLTA
+        Gson gson = new Gson();
         
         new Thread(new OuvinteMulticast()).start();
 
@@ -31,13 +31,13 @@ public class Votacao {
             String cpf = scanner.nextLine();
             
             LoginRequest login = new LoginRequest(cpf, "");
-            String jsonPayloadLogin = gson.toJson(login); // <-- Precisa do 'gson'
+            String jsonPayloadLogin = gson.toJson(login); 
             Mensagem msgLogin = new Mensagem("LOGIN", jsonPayloadLogin);
-            String jsonMsgLogin = gson.toJson(msgLogin); // <-- Precisa do 'gson'
+            String jsonMsgLogin = gson.toJson(msgLogin);
             
             out.println(jsonMsgLogin);
             
-            Mensagem respostaLogin = gson.fromJson(in.readLine(), Mensagem.class); // <-- Precisa
+            Mensagem respostaLogin = gson.fromJson(in.readLine(), Mensagem.class);
             
             if (!respostaLogin.getTipo().equals("OK")) {
                 System.out.println("Falha no login: " + respostaLogin.getTipo());
@@ -58,11 +58,11 @@ public class Votacao {
             int idVoto = Integer.parseInt(scanner.nextLine());
             
             Voto voto = new Voto(idVoto);
-            Mensagem msgVoto = new Mensagem("VOTO", gson.toJson(voto)); // <-- Precisa
+            Mensagem msgVoto = new Mensagem("VOTO", gson.toJson(voto));
             
-            out.println(gson.toJson(msgVoto)); // <-- Precisa
+            out.println(gson.toJson(msgVoto));
             
-            Mensagem respostaVoto = gson.fromJson(in.readLine(), Mensagem.class); // <-- Precisa
+            Mensagem respostaVoto = gson.fromJson(in.readLine(), Mensagem.class);
             System.out.println("Servidor: " + respostaVoto.getTipo());
             
         } catch (Exception e) {

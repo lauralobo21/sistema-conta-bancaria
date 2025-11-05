@@ -6,13 +6,11 @@ public class Candidato {
     public Candidato() {
     }
 
-    // Construtor para facilitar a criação
     public Candidato(int id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    // Getters
     public int getId() {
         return id;
     }
@@ -21,7 +19,6 @@ public class Candidato {
         return nome;
     }
 
-    // Setters
     public void setId(int id) {
         this.id = id;
     }

@@ -16,7 +16,7 @@ public class ClienteInputStream extends FilterInputStream {
 
     public ClienteInputStream(InputStream in) {
         super(in);
-        this.dis = new DataInputStream(in);
+        this.dis = new DataInputStream(in); //ajuda a ler os dados a partir dos bytes
     }
 
     public Conta readConta() throws IOException {
@@ -52,7 +52,6 @@ public class ClienteInputStream extends FilterInputStream {
         // (O construtor da Conta define o saldo como 0.0,
         // então precisamos definir o saldo real que veio pela rede)
         if (contaRecebida != null) {
-            // Isso funciona pois 'saldo' é 'protected' na classe Conta
             contaRecebida.setSaldo(saldo);
         }
 

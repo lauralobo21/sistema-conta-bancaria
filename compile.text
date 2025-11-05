@@ -1,0 +1,24 @@
+compilação de 1-4
+
+javac -d bin clients/*.java services/*.java server/*.java test/*.java
+
+Servidor
+java -cp bin server.Servidor
+
+Teste
+java -cp bin test.TesteStream
+
+
+---------------------------------------------------
+compilação da questão 5
+
+javac -d bin -cp "lib/gson-2.10.1" clients/*.java server/*.java services/*.java voting/*.java
+
+Servidor
+java -cp "bin:lib/gson-2.10.1" voting.ServidorTCP
+
+Admin
+java -cp "bin:lib/gson-2.10.1" voting.Adm
+
+Voto
+java -cp "bin:lib/gson-2.10.1" voting.Votacao

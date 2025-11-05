@@ -46,9 +46,8 @@ public class Servidor {
 
             // 4. Chama o método que lê o array de Contas
             System.out.println("Lendo dados das Contas do cliente...");
-            
-            // *** MUDANÇA PRINCIPAL AQUI ***
-            // Chama o novo método readContas()
+
+            //chamada de função da tarefa 3
             Conta[] contasRecebidas = leitorDeContas.readContas();
 
             // 5. Mostra os dados recebidos para provar que funcionou!

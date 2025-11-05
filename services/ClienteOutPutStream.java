@@ -14,7 +14,7 @@ public class ClienteOutPutStream extends FilterOutputStream {
 
     private DataOutputStream dos;
 
-    public ClienteOutPutStream(OutputStream out) {
+    public ClienteOutPutStream(OutputStream out) { // construtor que facilita a "escrita" de dados para bytes
         super(out);
         this.dos = new DataOutputStream(out);
     }
