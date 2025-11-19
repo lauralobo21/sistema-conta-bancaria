@@ -44,7 +44,3 @@ Esse cliente executa operações automáticas para validação e testes.
 java -cp "bin:lib/*" client.ClientMainMenu
 ```
 Esse cliente permite manipulação manual com menu: criar conta bancária, depositar, consultar saldo, e mais.
-
-[9](https://www.ibm.com/docs/pt-br/was-nd/8.5.5?topic=installing-hardware-software-requirements)
-[10](https://www.devmedia.com.br/tecnicas-para-levantamento-de-requisitos/9151)
-[11](https://www.digitalocean.com/community/tutorials/java-socket-programming-server-client)
