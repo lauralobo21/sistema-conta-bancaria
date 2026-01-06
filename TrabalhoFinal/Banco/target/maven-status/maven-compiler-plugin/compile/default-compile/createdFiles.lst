@@ -1,0 +1,6 @@
+server/ServerApi.class
+model/ContaCorrente.class
+model/Conta.class
+model/Banco.class
+model/Cliente.class
+model/ContaPoupanca.class
