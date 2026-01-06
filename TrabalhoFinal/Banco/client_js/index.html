@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente JS - Banco SPA</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #2c3e50; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        
+        .container { 
+            background: #34495e; padding: 25px; width: 400px; border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
+            transition: all 0.3s ease;
+        }
+
+        h2 { text-align: center; color: #e67e22; margin-top: 0; }
+        
+        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: none; box-sizing: border-box; }
+        
+        /* Cores dos botões */
+        button { font-weight: bold; cursor: pointer; color: white; transition: 0.3s; }
+        .btn-orange { background-color: #e67e22; } .btn-orange:hover { background-color: #d35400; }
+        .btn-green { background-color: #27ae60; } .btn-green:hover { background-color: #219150; }
+        .btn-red { background-color: #c0392b; } .btn-red:hover { background-color: #a93226; }
+        .btn-blue { background-color: #2980b9; } .btn-blue:hover { background-color: #1f618d; }
+        .btn-gray { background-color: #7f8c8d; } .btn-gray:hover { background-color: #95a5a6; }
+
+        .divider { border-top: 1px solid #7f8c8d; margin: 20px 0; text-align: center; color: #bdc3c7; font-size: 0.8em; }
+        
+        .response { 
+            margin-top: 15px; padding: 10px; background: #2c3e50; 
+            border: 1px solid #7f8c8d; border-radius: 5px; 
+            min-height: 40px; word-wrap: break-word; font-family: monospace; font-size: 0.9em;
+        }
+
+        /* Classes para esconder/mostrar telas */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="tela-login">
+        <h2>🏦 Banco Digital JS</h2>
+        
+        <div id="form-cadastro">
+            <input type="text" id="cad_numero" placeholder="Número da Nova Conta">
+            <input type="text" id="cad_nome" placeholder="Nome Completo">
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="cad_cpf" placeholder="CPF">
+                <input type="number" id="cad_idade" placeholder="Idade">
+            </div>
+            <select id="cad_tipo">
+                <option value="CC">Conta Corrente</option>
+                <option value="CP">Conta Poupança</option>
+            </select>
+            <input type="text" id="cad_extra" placeholder="Limite ou Aniversário">
+            <button onclick="criarConta()" class="btn-orange">✨ Criar e Entrar</button>
+        </div>
+
+        <div class="divider">JÁ É CLIENTE?</div>
+
+        <input type="text" id="login_numero" placeholder="Digite sua Conta existente">
+        <button onclick="fazerLogin()" class="btn-green">Acessar Conta</button>
+    </div>
+
+
+    <div id="tela-dashboard" class="hidden">
+        <h2>🏧 Área do Cliente</h2>
+        <p style="text-align: center; color: #bdc3c7;">Conta Conectada: <strong id="lbl-conta" style="color:#e67e22; font-size: 1.2em;">---</strong></p>
+        
+        <hr style="border: 0; border-top: 1px solid #7f8c8d; margin-bottom: 20px;">
+
+        <label>Valor da Operação (R$):</label>
+        <input type="number" id="op_valor" placeholder="0.00" style="font-size: 1.2em; text-align: center;">
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button onclick="operacao('deposito')" class="btn-green">Depositar</button>
+            <button onclick="operacao('saque')" class="btn-red">Sacar</button>
+        </div>
+        
+        <button onclick="consultar()" class="btn-blue" style="margin-top: 10px;">🔍 Consultar Saldo</button>
+
+        <div class="response" id="output">Aguardando operação...</div>
+
+        <button onclick="fazerLogout()" class="btn-gray" style="margin-top: 20px;">🔒 Sair</button>
+    </div>
+
+</div>
+
+<script>
+    const API_URL = "http://localhost:7000";
+    let contaLogada = null; // Variável Global que segura a "Sessão"
+
+    // --- FUNÇÕES DE NAVEGAÇÃO (TELA 1 <-> TELA 2) ---
+
+    function mudarTela(logado) {
+        if (logado) {
+            document.getElementById('tela-login').classList.add('hidden');
+            document.getElementById('tela-dashboard').classList.remove('hidden');
+            document.getElementById('lbl-conta').innerText = contaLogada;
+            document.getElementById('output').innerText = "Bem-vindo! Selecione uma opção.";
+        } else {
+            document.getElementById('tela-login').classList.remove('hidden');
+            document.getElementById('tela-dashboard').classList.add('hidden');
+            contaLogada = null;
+            // Limpa campos
+            document.getElementById('op_valor').value = "";
+            document.getElementById('output').innerText = "";
+        }
+    }
+
+    function fazerLogin() {
+        const num = document.getElementById('login_numero').value;
+        if (num) {
+            contaLogada = num;
+            mudarTela(true); // Vai para o Dashboard
+        } else {
+            alert("Digite um número de conta!");
+        }
+    }
+
+    function fazerLogout() {
+        mudarTela(false); // Volta para o Login
+    }
+
+    // --- FUNÇÕES DE API (COMUNICAÇÃO COM O JAVA) ---
+
+    async function criarConta() {
+        const payload = {
+            tipo: document.getElementById('cad_tipo').value,
+            numero: document.getElementById('cad_numero').value,
+            nome: document.getElementById('cad_nome').value,
+            cpf: document.getElementById('cad_cpf').value,
+            idade: document.getElementById('cad_idade').value,
+            extra: document.getElementById('cad_extra').value
+        };
+
+        const res = await sendRequest('/contas', 'POST', payload);
+        
+        if (res.ok) {
+            // Se criou com sucesso, loga automaticamente!
+            alert("Conta criada com sucesso!");
+            contaLogada = payload.numero;
+            mudarTela(true);
+        } else {
+            alert("Erro ao criar conta: " + res.text);
+        }
+    }
+
+    async function operacao(tipo) {
+        if (!contaLogada) return;
+
+        const valor = document.getElementById('op_valor').value;
+        const payload = {
+            numero: contaLogada, // Usa a variável da memória, não pede digitação
+            valor: valor
+        };
+        
+        const res = await sendRequest('/operacoes/' + tipo, 'POST', payload);
+        document.getElementById('output').innerText = res.text;
+    }
+
+    async function consultar() {
+        if (!contaLogada) return;
+        
+        try {
+            const res = await fetch(`${API_URL}/contas/${contaLogada}`);
+            if (res.ok) {
+                const json = await res.json();
+                document.getElementById('output').innerText = JSON.stringify(json, null, 2);
+            } else {
+                document.getElementById('output').innerText = "Erro ao consultar.";
+            }
+        } catch (e) {
+            document.getElementById('output').innerText = "Erro de conexão.";
+        }
+    }
+
+    // Função genérica para enviar dados
+    async function sendRequest(endpoint, method, bodyData) {
+        try {
+            const res = await fetch(API_URL + endpoint, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyData)
+            });
+            const text = await res.text();
+            return { ok: res.ok, text: text };
+        } catch (e) {
+            return { ok: false, text: "Erro de Conexão: " + e };
+        }
+    }
+</script>
+
+</body>
+</html>
