@@ -1,46 +1,53 @@
-# Sistema Bancário Java (RMI + UDP)
+# Trabalho 3: Web Services e API (Sistema Bancário Distribuído)
 
-## Requisitos do sistema
+**Disciplina:** Sistemas Distribuídos | **Instituição:** UFC - Campus Quixadá
 
-- **Java 8** ou superior instalado
-- Sistema operacional Windows, Linux ou Mac
-- Terminal/Bash para execução dos comandos
-- (Opcional) Bibliotecas em `lib/` já presentes no repositório
+**Autoras:** Gabriely Correia Dealem & Laura Soléria Lobo Vitorino Maciel
 
-## Compilação do projeto
+### Endpoints da API
 
-No terminal, dentro da raiz do projeto, utilize:
+O servidor Java intercepta requisições HTTP e as roteia para:
 
-```bash
-javac -d bin -cp "lib/*" server/*.java client/*.java
-```
-Isso compila todos os arquivos fonte para a pasta `bin`, considerando as dependências que estão em `lib/`.
+* `POST /criar`: Criação de nova conta.
+* `POST /deposito`: Adição de fundos.
+* `POST /saque`: Retirada de fundos.
+* `GET /saldo`: Consulta de saldo atual.
 
-Se desejar compilar todas as pastas de uma vez, use:
+## 1. Requisitos e Tecnologias
 
-```bash
-javac -d bin -cp "lib/*" */*.java
-```
+* **Java 8+** (com Maven para build)
+* **PHP** (para o cliente server-side)
+* **Navegador Web** (para o cliente JS)
+* **Tecnologias:** HTTP, JSON, Sockets/ServerSocket.
 
-## Como executar
+## 2. Compilação e Execução
 
-### Inicializar o Servidor
+### Passo 1: Inicializar o Servidor (Java)
 
-```bash
-java -cp "bin:lib/*" server.ServerMain
-```
-O servidor ficará aguardando as conexões e as operações dos clientes.
-
-### Inicializar o Cliente Automático
+O servidor deve ser o primeiro a ser iniciado, pois detém o estado da aplicação. Na raiz do projeto (pasta `Banco` ou raiz geral), execute:
 
 ```bash
-java -cp "bin:lib/*" client.ClientMain
-```
-Esse cliente executa operações automáticas para validação e testes.
+mvn clean compile exec:java -Dexec.mainClass="server.ServerApi"
 
-### Inicializar o Cliente Interativo
+```
+
+*O servidor ficará aguardando requisições na porta configurada (ex: 8080).*
+
+### Passo 2: Executar o Cliente PHP
+
+Em um novo terminal, navegue até a pasta do cliente PHP (`client_php`) e inicie o servidor embutido:
 
 ```bash
-java -cp "bin:lib/*" client.ClientMainMenu
+php -S localhost:8000
+
 ```
-Esse cliente permite manipulação manual com menu: criar conta bancária, depositar, consultar saldo, e mais.
+
+Acesse no navegador: `http://localhost:8000`
+
+### Passo 3: Executar o Cliente JavaScript
+
+Para o cliente JS, não é necessária compilação.
+
+1. Navegue até a pasta `client_js`.
+2. Abra o arquivo `index.html` diretamente no navegador.
+
